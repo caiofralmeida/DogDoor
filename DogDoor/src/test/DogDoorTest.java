@@ -6,6 +6,9 @@ import model.Remote;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class DogDoorTest extends TestCase {
 
     protected DogDoor dogDoor;
@@ -30,6 +33,26 @@ public class DogDoorTest extends TestCase {
         );
 
         remote.pressButton();
+
+        assertFalse(
+                remote.getDogDoor().isOpen()
+        );
+    }
+
+    @Test
+    public void testPortaFechaAutomaticamente() {
+
+        remote.pressButton();
+
+        assertTrue(
+                remote.getDogDoor().isOpen()
+        );
+
+        try {
+            Thread.sleep(5001);
+        } catch (Exception e) {
+
+        }
 
         assertFalse(
                 remote.getDogDoor().isOpen()
