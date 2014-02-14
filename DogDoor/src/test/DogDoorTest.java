@@ -80,7 +80,7 @@ public class DogDoorTest extends TestCase {
 
         BarkRecognizer recognizer = new BarkRecognizer(dogDoor);
 
-        recognizer.recognizer(new Bark("Au"));
+        recognizer.recognizer(new Bark("Houf"));
 
         assertTrue(dogDoor.isOpen());
     }
