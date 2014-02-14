@@ -8,8 +8,10 @@ public class BarkRecognizer {
         this.door = door;
     }
 
-    public void recognizer(String bark) {
-        System.out.println("Detecting back: " + bark);
-        door.open();
+    public void recognizer(Bark bark) {
+        if (door.getAllowedBark().equals(bark)) {
+            System.out.println("Detecting bark: " + bark);
+            door.open();
+        }
     }
 }

@@ -1,6 +1,7 @@
 package test;
 
 import junit.framework.TestCase;
+import model.Bark;
 import model.BarkRecognizer;
 import model.DogDoor;
 import model.Remote;
@@ -15,6 +16,7 @@ public class DogDoorTest extends TestCase {
     @Before
     public void setUp() {
         dogDoor = new DogDoor();
+
         remote = new Remote(dogDoor);
     }
 
@@ -58,10 +60,27 @@ public class DogDoorTest extends TestCase {
     }
 
     @Test
-    public void testDetectorDeLatidosAuAuAbrindoAPorta() {
+    public void testDetectorDeLatidosPassandoLatidoNaoPermitido() {
+        dogDoor.setAllowedBark(
+                new Bark("Houf")
+        );
+
         BarkRecognizer recognizer = new BarkRecognizer(dogDoor);
 
-        recognizer.recognizer("Au Au");
+        recognizer.recognizer(new Bark("Au"));
+
+        assertFalse(dogDoor.isOpen());
+    }
+
+    @Test
+    public void testDetectorDeLatidosPassandoLatidoPermitido() {
+        dogDoor.setAllowedBark(
+            new Bark("Houf")
+        );
+
+        BarkRecognizer recognizer = new BarkRecognizer(dogDoor);
+
+        recognizer.recognizer(new Bark("Au"));
 
         assertTrue(dogDoor.isOpen());
     }
