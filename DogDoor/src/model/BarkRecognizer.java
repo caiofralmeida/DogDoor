@@ -9,9 +9,14 @@ public class BarkRecognizer {
     }
 
     public void recognizer(Bark bark) {
-        if (door.getAllowedBark().equals(bark)) {
-            System.out.println("Detecting bark: " + bark);
-            door.open();
+
+        for(Bark barkAllowed : door.getAllowedBarks()) {
+            if(barkAllowed.equals(bark)) {
+                System.out.println("Detecting bark: " + bark.getAudio());
+                door.open();
+                return;
+            }
         }
+
     }
 }

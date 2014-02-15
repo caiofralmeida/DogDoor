@@ -8,6 +8,9 @@ import model.Remote;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DogDoorTest extends TestCase {
 
     protected DogDoor dogDoor;
@@ -61,7 +64,7 @@ public class DogDoorTest extends TestCase {
 
     @Test
     public void testDetectorDeLatidosPassandoLatidoNaoPermitido() {
-        dogDoor.setAllowedBark(
+        dogDoor.addAllowedBark(
                 new Bark("Houf")
         );
 
@@ -74,8 +77,8 @@ public class DogDoorTest extends TestCase {
 
     @Test
     public void testDetectorDeLatidosPassandoLatidoPermitido() {
-        dogDoor.setAllowedBark(
-            new Bark("Houf")
+        dogDoor.addAllowedBark(
+                new Bark("Houf")
         );
 
         BarkRecognizer recognizer = new BarkRecognizer(dogDoor);
@@ -83,5 +86,48 @@ public class DogDoorTest extends TestCase {
         recognizer.recognizer(new Bark("Houf"));
 
         assertTrue(dogDoor.isOpen());
+    }
+
+    @Test
+    public void testeDetectorDeLatidosPassandoVariosLatidosDetectandoValidosEInvalidos() {
+        List<Bark> list = new ArrayList<Bark>();
+
+        list.add(new Bark("AuAu"));
+        list.add(new Bark("Houf"));
+        list.add(new Bark("Hip"));
+
+        dogDoor.setAllowedBark(list);
+
+        BarkRecognizer recognizer = new BarkRecognizer(dogDoor);
+
+        recognizer.recognizer(new Bark("Houf"));
+
+        assertTrue(
+            dogDoor.isOpen()
+        );
+
+        dogDoor.close();
+
+        recognizer.recognizer(new Bark("AuAu"));
+
+        assertTrue(
+                dogDoor.isOpen()
+        );
+
+        dogDoor.close();
+
+        recognizer.recognizer(new Bark("Hip"));
+
+        assertTrue(
+                dogDoor.isOpen()
+        );
+
+        dogDoor.close();
+
+        recognizer.recognizer(new Bark("Miau"));
+
+        assertFalse(
+                dogDoor.isOpen()
+        );
     }
 }
